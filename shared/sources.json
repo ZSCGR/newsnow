@@ -432,14 +432,6 @@
     "color": "yellow",
     "interval": 600000
   },
-  "smzdm": {
-    "name": "什么值得买",
-    "type": "hottest",
-    "column": "china",
-    "home": "https://www.smzdm.com",
-    "color": "red",
-    "interval": 600000
-  },
   "nowcoder": {
     "name": "牛客",
     "type": "hottest",
