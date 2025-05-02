@@ -120,7 +120,7 @@ const hotVideo = defineSource(async () => {
 })
 
 const ranking = defineSource(async () => {
-  const url = "https://api.bilibili.com/x/web-interface/ranking/v2"
+  const url = "https://api-hot.chgr.cc/bilibili?limit=20"
   const res: HotVideoRes = await myFetch(url)
 
   return res.data.list.map(video => ({
