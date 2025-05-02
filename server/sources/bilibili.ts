@@ -1,3 +1,29 @@
+interface NewApiVideoItem {
+  id: string;
+  title: string;
+  desc: string;
+  cover: string;
+  author: string;
+  timestamp: number; // 注意这是毫秒时间戳
+  hot: number;
+  url: string;
+  mobileUrl: string;
+}
+
+interface NewApiResponse {
+  code: number;
+  name: string;
+  title: string;
+  type: string;
+  description: string;
+  parameData: any; // 可以根据需要细化
+  link: string;
+  total: number;
+  updateTime: string;
+  fromCache: boolean;
+  data: NewApiVideoItem[]; // 核心数据在这里
+}
+
 interface WapRes {
   code: number
   exp_str: string
@@ -120,30 +146,60 @@ const hotVideo = defineSource(async () => {
 })
 
 const ranking = defineSource(async () => {
-  const url = "https://api-hot.chgr.cc/bilibili?limit=20"; // 确认此 URL 返回 HotVideoRes 结构的数据
-  const res: HotVideoRes = await myFetch(url); // myFetch 应返回解析后的 HotVideoRes 类型对象
+  // 1. 使用新接口的 URL
+  const newUrl = "https://api-hot.chgr.cc/bilibili?limit=20"; // <--- 替换成新接口的实际地址
+  // 假设 myFetch 可以正确获取并解析新接口的 JSON
+  const newRes: NewApiResponse = await myFetch(newUrl);
 
-  // 健壮性检查：确保 res, res.data 和 res.data.list 存在且 list 是数组
-  if (!res || !res.data || !Array.isArray(res.data.list)) {
-    console.error("获取 Bilibili 热门榜数据失败或格式错误:", res);
-    // 根据你的错误处理策略，可以返回空数组、抛出错误或返回 null
-    return [];
-  }
+  // 2. 数据转换适配层：将 NewApiResponse 转换为符合 HotVideoRes['data']['list'] 结构的数组
+  //    注意：我们只需要构建 map 函数需要的部分即可，不需要严格创建完整的 HotVideoRes
+  const adaptedList = newRes.data.map(newItem => {
+    // 创建一个符合 map 函数内部访问 video 对象结构的临时对象
+    return {
+      bvid: newItem.id,
+      title: newItem.title,
+      pubdate: Math.floor(newItem.timestamp / 1000), // 将毫秒转为秒 (整数)
+      owner: {
+        name: newItem.author,
+        // 如果 map 中需要其他 owner 字段，需提供默认值
+        mid: 0,
+        face: '',
+      },
+      stat: {
+        view: newItem.hot, // 使用 hot 作为观看数 (近似值)
+        like: 0, // <--- 新接口没有点赞数，这里设置为 0
+        // 如果 map 中需要其他 stat 字段，需提供默认值
+        danmaku: 0, reply: 0, favorite: 0, coin: 0, share: 0, now_rank: 0, his_rank: 0, dislike: 0,
+      },
+      desc: newItem.desc,
+      pic: newItem.cover,
+      // --- 以下字段如果 map 中没有用到，可以不映射 ---
+      aid: 0, videos: 1, tid: 0, tname: 'N/A', copyright: 1, ctime: Math.floor(newItem.timestamp / 1000),
+      state: 0, duration: 0, dynamic: '', cid: 0, dimension: { width: 0, height: 0, rotate: 0 },
+      short_link: newItem.url, short_link_v2: newItem.url, rcmd_reason: { content: '', corner_mark: 0 },
+    };
+  });
 
-  // 访问 res.data.list 进行映射
-  return res.data.list.map(video => ({
-    id: video.bvid, // 使用 'bvid' 作为唯一 ID
-    title: video.title, // 'title' 字段
-    url: `https://www.bilibili.com/video/${video.bvid}`, // 使用 'bvid' 构建 URL
-    pubDate: video.pubdate * 1000, // 'pubdate' 是秒级时间戳，需转换为毫秒
+  // 3. 使用转换后的 adaptedList 进行 map 操作，这部分代码保持不变
+  //    map 函数现在操作的是我们手动适配过的对象数组
+  return adaptedList.map(video => ({
+    id: video.bvid,
+    title: video.title,
+    url: `https://www.bilibili.com/video/${video.bvid}`, // 保持原来的 URL 拼接方式
+    // 或者，如果你想用新接口提供的 URL:
+    // url: video.short_link, // short_link 在适配层映射自 newItem.url
+    pubDate: video.pubdate * 1000, // 将秒转换回毫秒
     extra: {
-      // 构建 info 字符串，包含作者、观看数和点赞数
+      // 注意：因为 like 设置为 0，这里的点赞数会显示为 0
       info: `${video.owner.name} · ${formatNumber(video.stat.view)}观看 · ${formatNumber(video.stat.like)}点赞`,
-      hover: video.desc, // 'desc' 字段用于悬停信息
-      icon: proxyPicture(video.pic), // 'pic' 字段是封面图 URL
+      // 如果不想显示点赞数，可以修改 info 的格式:
+      // info: `${video.owner.name} · ${formatNumber(video.stat.view)}观看`,
+      hover: video.desc,
+      icon: proxyPicture(video.pic), // pic 来源于 newItem.cover
     },
   }))
 })
+
 function formatNumber(num: number): string {
   if (num >= 10000) {
     return `${Math.floor(num / 10000)}w+`
