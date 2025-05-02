@@ -102,33 +102,48 @@ const hotSearch = defineSource(async () => {
   }))
 })
 
+const hotVideo = defineSource(async () => {
+  const url = "https://api.bilibili.com/x/web-interface/popular"
+  const res: HotVideoRes = await myFetch(url)
 
+  return res.data.list.map(video => ({
+    id: video.bvid,
+    title: video.title,
+    url: `https://www.bilibili.com/video/${video.bvid}`,
+    pubDate: video.pubdate * 1000,
+    extra: {
+      info: `${video.owner.name} · ${formatNumber(video.stat.view)}观看 · ${formatNumber(video.stat.like)}点赞`,
+      hover: video.desc,
+      icon: proxyPicture(video.pic),
+    },
+  }))
+})
 
 const ranking = defineSource(async () => {
-  const url = "https://api-hot.chgr.cc/bilibili?limit=20"; // 这个 URL 是否返回你提供的 JSON 结构？请确认。
-  // 假设 myFetch 返回的类型是 HotVideoRes 或者 any
-  const res = await myFetch(url); // 确保 myFetch 正确处理请求并返回解析后的 JSON 对象
+  const url = "https://api-hot.chgr.cc/bilibili?limit=20"; // 确认此 URL 返回 HotVideoRes 结构的数据
+  const res: HotVideoRes = await myFetch(url); // myFetch 应返回解析后的 HotVideoRes 类型对象
 
-  // 检查 res 和 res.data 是否存在且 res.data 是数组
-  if (!res || !Array.isArray(res.data)) {
+  // 健壮性检查：确保 res, res.data 和 res.data.list 存在且 list 是数组
+  if (!res || !res.data || !Array.isArray(res.data.list)) {
     console.error("获取 Bilibili 热门榜数据失败或格式错误:", res);
-    return []; // 返回空数组或进行错误处理
+    // 根据你的错误处理策略，可以返回空数组、抛出错误或返回 null
+    return [];
   }
 
-  // 直接使用 res.data 进行映射
-  return res.data.map(video => ({
-    id: video.id, // 使用 JSON 中的 'id'
-    title: video.title, // 'title' 字段匹配
-    url: `https://www.bilibili.com/video/${video.id}`, // 使用 'id' 构建 Bilibili 标准 URL
-    pubDate: video.timestamp, // 使用 'timestamp'，假设已经是毫秒
+  // 访问 res.data.list 进行映射
+  return res.data.list.map(video => ({
+    id: video.bvid, // 使用 'bvid' 作为唯一 ID
+    title: video.title, // 'title' 字段
+    url: `https://www.bilibili.com/video/${video.bvid}`, // 使用 'bvid' 构建 URL
+    pubDate: video.pubdate * 1000, // 'pubdate' 是秒级时间戳，需转换为毫秒
     extra: {
-      // 根据可用数据构建 info 字符串
-      info: `${video.author} · ${formatNumber(video.hot)} 热度`, // 使用 'author' 和 'hot'
-      hover: video.desc, // 'desc' 字段匹配
-      icon: proxyPicture(video.cover), // 使用 'cover'
+      // 构建 info 字符串，包含作者、观看数和点赞数
+      info: `${video.owner.name} · ${formatNumber(video.stat.view)}观看 · ${formatNumber(video.stat.like)}点赞`,
+      hover: video.desc, // 'desc' 字段用于悬停信息
+      icon: proxyPicture(video.pic), // 'pic' 字段是封面图 URL
     },
-  }));
-});
+  }))
+})
 function formatNumber(num: number): string {
   if (num >= 10000) {
     return `${Math.floor(num / 10000)}w+`
