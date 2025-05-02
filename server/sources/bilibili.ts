@@ -129,7 +129,7 @@ const hotSearch = defineSource(async () => {
 })
 
 const hotVideo = defineSource(async () => {
-  const url = "https://api.bilibili.com/x/web-interface/popular"
+  const url = "https://proxy.255254.xyz/https://api.bilibili.com/x/web-interface/popular"
   const res: HotVideoRes = await myFetch(url)
 
   return res.data.list.map(video => ({
