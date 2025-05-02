@@ -106,7 +106,7 @@ const hotVideo = defineSource(async () => {
   const url = "https://www.bilibili.com/v/popular/rank/all"
   const res: HotVideoRes = await myFetch(url)
 
-  return res.data.list.map(video => ({
+  return res.data(video => ({
     id: video.bvid,
     title: video.title,
     url: `https://www.bilibili.com/video/${video.bvid}`,
