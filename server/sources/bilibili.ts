@@ -130,12 +130,7 @@ const hotSearch = defineSource(async () => {
 
 const hotVideo = defineSource(async () => {
   const url = "https://api.bilibili.com/x/web-interface/popular"
-  const headers = {
-      Referer: `https://api.bilibili.com/x/web-interface/popular`,
-      "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
-    }
-  const res: HotVideoRes = await myFetch(url,{ headers })
+  const res: HotVideoRes = await myFetch(url)
 
   return res.data.list.map(video => ({
     id: video.bvid,
