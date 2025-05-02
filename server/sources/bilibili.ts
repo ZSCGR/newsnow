@@ -102,40 +102,33 @@ const hotSearch = defineSource(async () => {
   }))
 })
 
-const hotVideo = defineSource(async () => {
-  const url = "https://www.bilibili.com/v/popular/rank/all"
-  const res: HotVideoRes = await myFetch(url)
 
-  return res.data(video => ({
-    id: video.bvid,
-    title: video.title,
-    url: `https://www.bilibili.com/video/${video.bvid}`,
-    pubDate: video.pubdate * 1000,
-    extra: {
-      info: `${video.owner.name} · ${formatNumber(video.stat.view)}观看 · ${formatNumber(video.stat.like)}点赞`,
-      hover: video.desc,
-      icon: proxyPicture(video.pic),
-    },
-  }))
-})
 
 const ranking = defineSource(async () => {
-  const url = "https://api-hot.chgr.cc/bilibili?limit=20"
-  const res: HotVideoRes = await myFetch(url)
+  const url = "https://api-hot.chgr.cc/bilibili?limit=20"; // 这个 URL 是否返回你提供的 JSON 结构？请确认。
+  // 假设 myFetch 返回的类型是 HotVideoRes 或者 any
+  const res = await myFetch(url); // 确保 myFetch 正确处理请求并返回解析后的 JSON 对象
 
-  return res.data.list.map(video => ({
-    id: video.bvid,
-    title: video.title,
-    url: `https://www.bilibili.com/video/${video.bvid}`,
-    pubDate: video.pubdate * 1000,
+  // 检查 res 和 res.data 是否存在且 res.data 是数组
+  if (!res || !Array.isArray(res.data)) {
+    console.error("获取 Bilibili 热门榜数据失败或格式错误:", res);
+    return []; // 返回空数组或进行错误处理
+  }
+
+  // 直接使用 res.data 进行映射
+  return res.data.map(video => ({
+    id: video.id, // 使用 JSON 中的 'id'
+    title: video.title, // 'title' 字段匹配
+    url: `https://www.bilibili.com/video/${video.id}`, // 使用 'id' 构建 Bilibili 标准 URL
+    pubDate: video.timestamp, // 使用 'timestamp'，假设已经是毫秒
     extra: {
-      info: `${video.owner.name} · ${formatNumber(video.stat.view)}观看 · ${formatNumber(video.stat.like)}点赞`,
-      hover: video.desc,
-      icon: proxyPicture(video.pic),
+      // 根据可用数据构建 info 字符串
+      info: `${video.author} · ${formatNumber(video.hot)} 热度`, // 使用 'author' 和 'hot'
+      hover: video.desc, // 'desc' 字段匹配
+      icon: proxyPicture(video.cover), // 使用 'cover'
     },
-  }))
-})
-
+  }));
+});
 function formatNumber(num: number): string {
   if (num >= 10000) {
     return `${Math.floor(num / 10000)}w+`
