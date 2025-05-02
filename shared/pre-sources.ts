@@ -272,12 +272,6 @@ export const originSources = {
         column: "china",
         type: "hottest",
       },
-      "hot-video": {
-        title: "热门视频",
-        disable: "cf",
-        column: "china",
-        type: "hottest",
-      },
       "ranking": {
         title: "排行榜",
         column: "china",
