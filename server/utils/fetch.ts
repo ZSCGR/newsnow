@@ -23,7 +23,7 @@ export const linuxdoFetch = $fetch.create({
     "Cache-Control":"no-cache",
     "Pragma":"no-cache",
     "Priority":"u=0, i",
-    "Sec-Ch-Ua":"Chromium;v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"",
+    "Sec-Ch-Ua":'"Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"',
     "Sec-Ch-Ua-Mobile":"?0",
     "Sec-Ch-Ua-Platform":"Windows",
     "Sec-Fetch-Dest":"document",
