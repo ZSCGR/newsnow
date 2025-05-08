@@ -20,8 +20,17 @@ export const zhihuFetch = $fetch.create({
 export const linuxdoFetch = $fetch.create({
   headers: {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
-    "Referer":"https://linux.do/top/daily.json?period=daily",
-    "Host":"linux.do"
+    "Cache-Control":"no-cache",
+    "Pragma":"no-cache",
+    "Priority":"u=0, i",
+    "Sec-Ch-Ua":""Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"",
+    "Sec-Ch-Ua-Mobile":"?0",
+    "Sec-Ch-Ua-Platform":""Windows"",
+    "Sec-Fetch-Dest":"document",
+    "Sec-Fetch-Mode":"navigate",
+    "Sec-Fetch-Site":"none",
+    "Sec-Fetch-User":"?1",
+    "Upgrade-Insecure-Requests":"1"
   },
   timeout: 10000,
   retry: 3,
