@@ -19,7 +19,8 @@ export const zhihuFetch = $fetch.create({
 
 export const linuxdoFetch = $fetch.create({
   headers: {
-    "User-Agent": "Apifox/1.0.0 (https://apifox.com)"
+    "User-Agent": "Apifox/1.0.0 (https://apifox.com)",
+    "Host":"linux.do"
   },
   timeout: 10000,
   retry: 3,
