@@ -20,8 +20,7 @@ export const zhihuFetch = $fetch.create({
 export const linuxdoFetch = $fetch.create({
   headers: {
     "User-Agent": "Apifox/1.0.0 (https://apifox.com)",
-    "Host":"linux.do",
-    "Cache-Control":"no-cache, no-store"
+    "Set-Cookie":"_forum_session=X8G%2BMg%2F6IpCdnEw696%2FpdIwNexDaFbAe1Tf9m9Br0zb6ouvydHsL%2Bsk5X3wlVMsEtEgHL%2Fx89Lx2rbdgRXUX%2F%2BU8dSANxOy3CHqgqh0q61WQk397J0ihWkgaFfBXqB%2B8Ow%2BgLLU5hXxUPMbTe3IesqLCCDehXv4tnc1UM3UZ3JZsYX19WmALORNKp7IefOnnKRkX2rrGAeJxNOZiQIxWKzwKag%2B40i1f88wuyFoseqKdpD1orlYpXygWNssLUJSzEfOquNwCRdVjvMHl16T8Y%2BIM7hnEng%3D%3D--cqZGJVVibN1PhOrK--mk1FEi%2BbJ6w4pwoul%2BJvRQ%3D%3D; path=/; secure; HttpOnly; SameSite=Lax"
   },
   timeout: 10000,
   retry: 3,
