@@ -32,7 +32,7 @@ interface Res {
 }
 
 const hot = defineSource(async () => {
-  const res = await myFetch<Res>("https://linux.do/top.json?period=daily")
+  const res = await linuxdoFetch<Res>("https://linux.do/top.json?period=daily")
   return res.topic_list.topics
     .filter(k => k.visible && !k.archived && !k.pinned)
     .map(k => ({
@@ -43,7 +43,7 @@ const hot = defineSource(async () => {
 })
 
 const latest = defineSource(async () => {
-  const res = await myFetch<Res>("https://linux.do/latest.json?order=created")
+  const res = await linuxdoFetch<Res>("https://linux.do/latest.json?order=created")
   return res.topic_list.topics
     .filter(k => k.visible && !k.archived && !k.pinned)
     .map(k => ({
