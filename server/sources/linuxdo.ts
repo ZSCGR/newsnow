@@ -32,7 +32,7 @@ interface Res {
 }
 
 const hot = defineSource(async () => {
-  const res = await linuxdoFetch<Res>("https://linux.do/top.json?period=daily")
+  const res = await linuxdoFetch<Res>("https://linux.do/top/daily.json")
   return res.topic_list.topics
     .filter(k => k.visible && !k.archived && !k.pinned)
     .map(k => ({
