@@ -24,6 +24,8 @@ export const linuxdoFetch = $fetch.create({
     "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134",
     "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0",
+    "Accept-Language": "zh-CN,zh;q=0.9",
+    "Referer": "https://tmp.chgr.cc",
     "Cache-Control":"no-cache",
     "Pragma":"no-cache",
     "Priority":"u=0, i",
