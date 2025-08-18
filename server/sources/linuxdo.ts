@@ -32,7 +32,7 @@ interface Res {
 }
 
 const hot = defineSource(async () => {
-  const res = await myFetch<Res>("https://seep.eu.org/https://linux.do/top/daily.json")
+  const res = await myFetch<Res>("https://n8n.chgr.cc/webhook/api?name=linuxdo")
   return res.topic_list.topics
     .filter(k => k.visible && !k.archived && !k.pinned)
     .map(k => ({
