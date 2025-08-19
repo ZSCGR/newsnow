@@ -417,7 +417,7 @@
   "linuxdo-hot": {
     "name": "LINUX DO",
     "type": "hottest",
-    "column": "china",
+    "column": "tech",
     "home": "https://linux.do",
     "color": "gray",
     "interval": 1800000,
