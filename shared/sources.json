@@ -417,10 +417,9 @@
   "linuxdo-hot": {
     "name": "LINUX DO",
     "type": "hottest",
-    "disable": "cf",
-    "column": "tech",
-    "home": "https://linux.do/hot",
-    "color": "slate",
+    "column": "china",
+    "home": "https://linux.do",
+    "color": "gray",
     "interval": 1800000,
     "title": "今日最热"
   },
