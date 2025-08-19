@@ -331,21 +331,23 @@ export const originSources = {
     type: "hottest",
     home: "https://www.baidu.com",
   },
-    "hupu": {
-    name: "虎扑",
-    home: "https://hupu.com",
-    column: "china",
-    title: "主干道热帖",
-    type: "hottest",
-    color: "red",
-  },
   "linuxdo": {
     name: "LINUX DO",
-    home: "https://linux.do/",
     column: "tech",
-    title: "今日最热",
-    type: "hottest",
     color: "slate",
+    home: "https://linux.do/",
+    sub: {
+      latest: {
+        title: "最新",
+        home: "https://linux.do/latest",
+      },
+      hot: {
+        title: "今日最热",
+        type: "hottest",
+        interval: Time.Common,
+        home: "https://linux.do/hot",
+      },
+    },
   },
   "ghxi": {
     name: "果核剥壳",
