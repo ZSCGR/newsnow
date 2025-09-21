@@ -55,7 +55,7 @@ const latest = defineSource(async () => {
 })
 
 export default defineSource({
-  "linuxdo": latest,
-  "linuxdo-latest": latest,
-  "linuxdo-hot": hot,
+  "idcflare": latest,
+  "idcflare-latest": latest,
+  "idcflare-hot": hot,
 })
