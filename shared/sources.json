@@ -423,6 +423,15 @@
     "interval": 1800000,
     "title": "今日最热"
   },
+    "idcflare-hot": {
+    "name": "IDC Flare",
+    "type": "hottest",
+    "column": "tech",
+    "home": "https://idcflare.com",
+    "color": "gray",
+    "interval": 1800000,
+    "title": "今日最热"
+  },
   "nowcoder": {
     "name": "牛客",
     "type": "hottest",
