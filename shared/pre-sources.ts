@@ -349,6 +349,24 @@ export const originSources = {
       },
     },
   },
+    "idcflare": {
+    name: "IDC Flare",
+    column: "tech",
+    color: "slate",
+    home: "https://idcflare.com/",
+    sub: {
+      latest: {
+        title: "最新",
+        home: "https://idcflare.com/latest",
+      },
+      hot: {
+        title: "今日最热",
+        type: "hottest",
+        interval: Time.Common,
+        home: "https://idcflare.com/hot",
+      },
+    },
+  },
   "ghxi": {
     name: "果核剥壳",
     column: "china",
