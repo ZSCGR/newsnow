@@ -38,19 +38,19 @@ const hot = defineSource(async () => {
     .map(k => ({
       id: k.id,
       title: k.title,
-      url: `https://linux.do/t/topic/${k.id}`,
+      url: `https://idcflare.com/t/topic/${k.id}`,
     }))
 })
 
 const latest = defineSource(async () => {
-  const res = await myFetch<Res>("https://linux.do/latest.json?order=created")
+  const res = await myFetch<Res>("https://idcflare.com/latest.json?order=created")
   return res.topic_list.topics
     .filter(k => k.visible && !k.archived && !k.pinned)
     .map(k => ({
       id: k.id,
       title: k.title,
       pubDate: new Date(k.created_at).valueOf(),
-      url: `https://linux.do/t/topic/${k.id}`,
+      url: `https://idcflare.com/t/topic/${k.id}`,
     }))
 })
 
