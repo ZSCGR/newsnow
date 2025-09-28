@@ -420,7 +420,7 @@
     "column": "tech",
     "home": "https://linux.do",
     "color": "gray",
-    "interval": 1800000,
+    "interval": 600000,
     "title": "今日最热"
   },
     "idcflare-hot": {
@@ -429,7 +429,7 @@
     "column": "tech",
     "home": "https://idcflare.com",
     "color": "gray",
-    "interval": 1800000,
+    "interval": 600000,
     "title": "今日最热"
   },
   "nowcoder": {
